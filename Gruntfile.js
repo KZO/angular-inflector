@@ -61,13 +61,17 @@ module.exports = function(grunt) {
       }
     },
 
+    jscs: {
+      src: ['src/*.js']
+    },
+
     watch: {
       scripts: {
         files: ['src/*.js'],
         tasks: ['uglify'],
         options: {
-          spawn: false,
-        },
+          spawn: false
+        }
       }
     }
 
@@ -78,8 +82,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-karma');
+  grunt.loadNpmTasks('grunt-jscs-checker');
 
-  grunt.registerTask('default', ['jshint', 'karma:unit', 'ngAnnotate', 'uglify']);
+  grunt.registerTask('default', ['jshint', 'jscs', 'karma:unit', 'ngAnnotate', 'uglify']);
   grunt.registerTask('test', ['karma:watch']);
   grunt.registerTask('build', ['default']);
 

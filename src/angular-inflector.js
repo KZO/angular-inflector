@@ -8,12 +8,12 @@
  */
 
 
-(function() {
+(function () {
 
-'use strict';
+  'use strict';
 
-angular.module('kzo.inflector', [])
-  .provider('inflector', function () {
+  /* jshint -W040 */
+  angular.module('kzo.inflector', []).provider('inflector', function () {
 
     this.rules = {
       plurals: [
@@ -69,13 +69,13 @@ angular.module('kzo.inflector', [])
         [/(database)s$/i, '$1']
       ],
       irregular: {
-        'person': 'people',
-        'man': 'men',
-        'child': 'children',
-        'sex': 'sexes',
-        'move': 'moves',
-        'cow': 'kine',
-        'zombie': 'zombies'
+        person: 'people',
+        man: 'men',
+        child: 'children',
+        sex: 'sexes',
+        move: 'moves',
+        cow: 'kine',
+        zombie: 'zombies'
       },
       uncountable: [
         'equipment',
@@ -93,7 +93,9 @@ angular.module('kzo.inflector', [])
 
     this.rules.irregularInverse = {};
     for (var irregularKey in this.rules.irregular) {
-      this.rules.irregularInverse[this.rules.irregular[irregularKey]] = irregularKey;
+      if (this.rules.irregular.hasOwnProperty(irregularKey)) {
+        this.rules.irregularInverse[this.rules.irregular[irregularKey]] = irregularKey;
+      }
     }
 
 
@@ -119,7 +121,7 @@ angular.module('kzo.inflector', [])
 
       /**
        * @method uncountable
-       * @param {String} regex
+       * @param {String} string
        */
       function uncountable (string) {
         this.rules.uncountable[string.toLowerCase()] = true;
@@ -160,8 +162,8 @@ angular.module('kzo.inflector', [])
        * @param {Object} irregular
        */
       function inflect (word, typeRules, irregular) {
-        var inflection, substitution, result, lowercase, isBlank,
-          isUncountable, isIrregular, isIrregularInverse, rule;
+        var inflection, substitution, result, lowercase,
+          isUncountable, isIrregular, rule;
 
         if (/^\s*$/.test(word)) {
           return word;
@@ -180,8 +182,8 @@ angular.module('kzo.inflector', [])
         }
 
         for (var i = typeRules.length, min = 0; i > min; i--) {
-           inflection = typeRules[i - 1];
-           rule = inflection[0];
+          inflection = typeRules[i - 1];
+          rule = inflection[0];
 
           if (rule.test(word)) {
             break;
