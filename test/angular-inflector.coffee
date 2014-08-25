@@ -77,6 +77,9 @@ describe 'Inflector (basic rules)', ->
       $rootScope = _$rootScope_
       scope = $rootScope.$new()
 
+  it 'should have some basic built-in rules', ->
+    expect(inflector.pluralize('cow')).toBe 'kine'
+
   it 'should pluralize', ->
     expect(inflector.pluralize('person')).toBe 'people'
     expect(inflector.pluralize('user')).toBe 'users'

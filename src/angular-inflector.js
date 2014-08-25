@@ -77,18 +77,18 @@
         cow: 'kine',
         zombie: 'zombies'
       },
-      uncountable: [
-        'equipment',
-        'information',
-        'rice',
-        'money',
-        'species',
-        'series',
-        'fish',
-        'sheep',
-        'jeans',
-        'police'
-      ]
+      uncountable: {
+        equipment   : true,
+        information : true,
+        rice        : true,
+        money       : true,
+        species     : true,
+        series      : true,
+        fish        : true,
+        sheep       : true,
+        jeans       : true,
+        police      : true
+      }
     };
 
     this.rules.irregularInverse = {};
@@ -101,13 +101,15 @@
 
     this.$get = function () {
 
+      var rules = this.rules;
+
       /**
        * @method plural
        * @param {RegExp} regex
        * @param {String} string
        */
       function plural (regex, string) {
-        this.rules.plurals.push([regex, string.toLowerCase()]);
+        rules.plurals.push([regex, string.toLowerCase()]);
       }
 
       /**
@@ -116,7 +118,7 @@
        * @param {String} string
        */
       function singular (regex, string) {
-        this.rules.singular.push([regex, string.toLowerCase()]);
+        rules.singular.push([regex, string.toLowerCase()]);
       }
 
       /**
@@ -124,7 +126,7 @@
        * @param {String} string
        */
       function uncountable (string) {
-        this.rules.uncountable[string.toLowerCase()] = true;
+        rules.uncountable[string.toLowerCase()] = true;
       }
 
       /**
@@ -133,8 +135,8 @@
        * @param {String} plural
        */
       function irregular (singular, plural) {
-        this.rules.irregular[singular.toLowerCase()] = plural;
-        this.rules.irregularInverse[plural.toLowerCase()] = singular;
+        rules.irregular[singular.toLowerCase()] = plural;
+        rules.irregularInverse[plural.toLowerCase()] = singular;
       }
 
       /**
@@ -142,7 +144,7 @@
        * @param {String} word
        */
       function pluralize (word) {
-        return this.inflect(word, this.rules.plurals, this.rules.irregular);
+        return inflect(word, rules.plurals, rules.irregular);
       }
 
       /**
@@ -150,7 +152,7 @@
        * @param {String} word
        */
       function singularize (word) {
-        return this.inflect(word, this.rules.singular,  this.rules.irregularInverse);
+        return inflect(word, rules.singular,  rules.irregularInverse);
       }
 
       /**
@@ -171,7 +173,7 @@
 
         lowercase = word.toLowerCase();
 
-        isUncountable = this.rules.uncountable[lowercase];
+        isUncountable = rules.uncountable[lowercase];
         if (isUncountable) {
           return word;
         }
@@ -201,7 +203,6 @@
 
       }
 
-
       var publicApi = {
         plural: plural,
         pluralize: pluralize,
@@ -209,8 +210,7 @@
         singularize: singularize,
         uncountable: uncountable,
         irregular: irregular,
-        inflect: inflect,
-        rules: this.rules
+        inflect: inflect
       };
 
       return publicApi;
