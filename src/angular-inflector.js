@@ -203,6 +203,40 @@
 
       }
 
+      /**
+       * Changes a word from camelCase to snake_case
+       *
+       * @param {String} string
+       * @param {String} sep Change the seperator from '-'
+       * @return {String} The snake_cased string
+       */
+      function parameterize (string, sep) {
+        if (typeof string !== 'string') {
+          return string;
+        }
+
+        return string.replace(/(?:[A-Z]+|[0-9]+)/g, function (match, index) {
+          return index === 0 ? match : (sep || '-') + match;
+        }).toLowerCase();
+      }
+
+      /**
+       * CamelCase a string.  Replaces spaces and dashes
+       *
+       * @param {String} string
+       * @param {Boolean} upperFirst whether to capitalize the first character
+       * @return {String} The camelCased string
+       */
+      function camelize (string, upperFirst) {
+        if (typeof string !== 'string') {
+          return string;
+        }
+
+        return string.replace(/(?:^[-_\s]*|[-_\s]+)([A-Z\d])/gi, function (match, first, index) {
+          return (!upperFirst && index === 0) ? first : first.toUpperCase();
+        });
+      }
+
       var publicApi = {
         plural: plural,
         pluralize: pluralize,
@@ -210,7 +244,9 @@
         singularize: singularize,
         uncountable: uncountable,
         irregular: irregular,
-        inflect: inflect
+        inflect: inflect,
+        parameterize: parameterize,
+        camelize: camelize
       };
 
       return publicApi;

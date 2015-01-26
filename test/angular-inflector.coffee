@@ -64,6 +64,17 @@ describe 'Inflector (no rules)', ->
     expect(inflector.singularize('userPreferences')).toBe 'userPreferences'
     expect(inflector.pluralize('userPreferences')).toBe 'userPreferences'
 
+  it 'should camelize words', ->
+    expect(inflector.camelize('this-is-cool')).toBe 'thisIsCool'
+    expect(inflector.camelize('this is cool')).toBe 'thisIsCool'
+    expect(inflector.camelize('this_is_cool')).toBe 'thisIsCool'
+    expect(inflector.camelize('this-is-cool', true)).toBe 'ThisIsCool'
+    expect(inflector.camelize('i am 0 cool')).toBe 'iAm0Cool'
+
+  it 'should parameterize words', ->
+    expect(inflector.parameterize('thisIsCool')).toBe 'this-is-cool'
+    expect(inflector.parameterize('ThisIsCool', '_')).toBe 'this_is_cool'
+
 describe 'Inflector (basic rules)', ->
 
   inflector = null
