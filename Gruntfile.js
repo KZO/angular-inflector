@@ -73,6 +73,14 @@ module.exports = function(grunt) {
           spawn: false
         }
       }
+    },
+
+    browserify: {
+      build: {
+        files: {
+          'build/angular-inflector.js': ['build/angular-inflector.js'],
+        }
+      }
     }
 
   });
@@ -83,8 +91,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-jscs');
+  grunt.loadNpmTasks('grunt-browserify');
 
-  grunt.registerTask('default', ['jshint', 'jscs', 'karma:unit', 'ngAnnotate', 'uglify']);
+  grunt.registerTask('default', ['jshint', 'jscs', 'ngAnnotate', 'browserify', 'karma:unit', 'uglify']);
   grunt.registerTask('test', ['karma:watch']);
   grunt.registerTask('build', ['default']);
 
