@@ -210,12 +210,12 @@
        * @param {String} sep Change the seperator from '-'
        * @return {String} The snake_cased string
        */
-      function parameterize (string, sep) {
+      function parameterize (string, sep, includeNum) {
         if (typeof string !== 'string') {
           return string;
         }
-
-        return string.replace(/(?:[A-Z]+|[0-9]+)/g, function (match, index) {
+        var expression = (includeNum) ? /(?:[A-Z]+|[0-9]+)/g : /(?:[A-Z]+)/g;
+        return string.replace(expression, function (match, index) {
           return index === 0 ? match : (sep || '-') + match;
         }).toLowerCase();
       }
